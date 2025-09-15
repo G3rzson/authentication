@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+@layer base {
+  .pageTitle {
+    font-size: 2.5rem;
+    text-align: center;
+    margin: 2rem 0;
+  }
+
+  form {
+    width: 60%;
+    margin: 0 auto;
+  }
+
+  .formField {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .formLabel {
+    letter-spacing: 0.1rem;
+    margin-top: 0.5rem;
+    cursor: pointer;
+  }
+
+  .formInput {
+    border-bottom: 2px solid white;
+    outline: none;
+    background-color: transparent;
+    color: white;
+    padding: 0.5rem 0;
+  }
+  /* Chrome / Edge (WebKit / Blink) - autofill override (több állapot) */
+  .formInput:-webkit-autofill,
+  .formInput:-webkit-autofill:hover,
+  .formInput:-webkit-autofill:focus,
+  .formInput:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px #27272a inset !important; /* használd a form hátterének színét */
+    box-shadow: 0 0 0 1000px #27272a inset !important;
+    -webkit-text-fill-color: #ffffff !important; /* szöveg színe */
+    caret-color: auto;
+  }
+
+  /* Firefox */
+  .formInput:-moz-autofill {
+    box-shadow: 0 0 0 1000px #27272a inset !important;
+    -moz-text-fill-color: #ffffff !important;
+  }
+
+  .errorMsg {
+    color: orangered;
+    letter-spacing: 0.1rem;
+  }
+
+  @media screen and (max-width: 640px) {
+    form {
+      width: 100%;
+      padding: 0 1rem;
+    }
+  }
+
+  @media screen and (min-width: 1200px) {
+    form {
+      width: 600px;
+    }
+  }
+}
