@@ -7,9 +7,10 @@ import {
   type RegisterFormData,
 } from "../../Validation/registerUserForm";
 import Paragraph from "./Elements/Paragraph";
-import axios from "axios";
-import Loading from "../../Loader/Loading";
 import { useGlobalContext } from "../../Hooks/useGlobalContext";
+import { useNavigate } from "react-router-dom";
+import LoadingModal from "../../Loader/LoadingModal";
+import handleRegister from "../../Functions/handleRegister";
 
 export default function RegisterForm() {
   const {
@@ -22,64 +23,43 @@ export default function RegisterForm() {
   });
 
   const { setServerError, setInfo } = useGlobalContext();
+  const navigate = useNavigate();
 
   async function onSubmit(data: RegisterFormData) {
-    try {
-      const response = await axios.post(
-        "http://localhost:8000/user/register",
-        data
-      );
-      //console.log(response.data);
-      if (response.data.error) {
-        console.log(response.data.error);
-        setServerError(response.data.error);
-      }
-      if (response.data.message) {
-        console.log(response.data.message);
-        setInfo(response.data.message);
-      }
-    } catch (error) {
-      //console.log(error);
-      if (axios.isAxiosError(error)) {
-        //console.log(error.response?.data.error);
-        setServerError(error.response?.data.error);
-      } else {
-        setServerError("Hiba történt a regisztráció során!");
-      }
-    } finally {
-      reset();
-    }
+    //console.log(data)
+    handleRegister(data, setServerError, setInfo, navigate, reset);
   }
 
-  if (isSubmitting) return <Loading />;
-
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <InputField<RegisterFormData>
-        name="username"
-        label="Felhasználónév:"
-        register={register}
-        errors={errors}
-      />
-      <InputField<RegisterFormData>
-        name="email"
-        label="Email:"
-        register={register}
-        errors={errors}
-      />
-      <InputField<RegisterFormData>
-        name="password"
-        label="Jelszó:"
-        type="password"
-        register={register}
-        errors={errors}
-      />
-      <SubmitBtn isSubmitting={isSubmitting}>Regisztráció</SubmitBtn>
-      <Paragraph
-        text={"Van már fiókod?"}
-        linkText={"Jelentkezz be!"}
-        path="/user/login"
-      />
-    </form>
+    <>
+      <LoadingModal isOpen={isSubmitting} />
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <InputField<RegisterFormData>
+          name="username"
+          label="Felhasználónév:"
+          register={register}
+          errors={errors}
+        />
+        <InputField<RegisterFormData>
+          name="email"
+          label="Email:"
+          register={register}
+          errors={errors}
+        />
+        <InputField<RegisterFormData>
+          name="password"
+          label="Jelszó:"
+          type="password"
+          register={register}
+          errors={errors}
+        />
+        <SubmitBtn isSubmitting={isSubmitting}>Regisztráció</SubmitBtn>
+        <Paragraph
+          text={"Van már fiókod?"}
+          linkText={"Jelentkezz be!"}
+          path="/user/login"
+        />
+      </form>
+    </>
   );
 }

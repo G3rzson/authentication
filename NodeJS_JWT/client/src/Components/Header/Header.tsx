@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { navLinks } from "./navLinks";
+import AuthLink from "./AuthLink";
 
 export default function Header() {
   return (
@@ -16,14 +17,7 @@ export default function Header() {
               </Link>
             </li>
           ))}
-          <li className="sm:w-fit w-full">
-            <Link
-              className="p-4 block  text-center hover:bg-zinc-200 hover:text-zinc-900 duration-500"
-              to={"/user/login"}
-            >
-              Bejelentkezés
-            </Link>
-          </li>
+          <AuthLink />
         </ul>
       </nav>
     </header>

@@ -9,8 +9,6 @@ export async function registerUser(req: Request, res: Response) {
   // validálás
   const parsed = registerFormSchema.safeParse(req.body);
   //console.log(parsed);
-
-  // validálás ellenőrzése
   if (!parsed.success) {
     return res.status(400).json({
       error: parsed.error.flatten().fieldErrors ?? "Érvénytelen adatok!",
@@ -32,9 +30,11 @@ export async function registerUser(req: Request, res: Response) {
       });
     }
 
+    // hashing password
     const hashedPassword = await bcrypt.hash(password, 10);
     //console.log(hashedPassword);
 
+    // create user
     await RegisterUserModel.create({
       username,
       email,
